@@ -1,0 +1,168 @@
+---
+title: "TidyTuesday 2022/48 - FIFA World Cup by Kaggle FIFA World Cup"
+author: "Johan S. Sáenz"
+date: "2022-12-28"
+output:
+  html_document:
+  theme: paper
+highlight: kate
+editor: source
+knitr:
+  opts_chunk:
+    dev: "ragg_png"
+    retina: 2
+    dpi: 600
+execute:
+  freeze: auto
+  echo: true
+  fig-width: 5
+  fig-height: 6
+---
+
+```{r}
+#| label: prep
+#| message: false
+#| warning: false
+library(tidyverse)
+library(countrycode)
+library(ggimage)
+library(ggtext)
+library(ggpubr)
+library(ggsci)
+library(hrbrthemes)
+
+set.seed(19880915)
+
+```
+
+# Data
+
+```{r}
+#| label: data
+wcmatches <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-11-29/wcmatches.csv')
+
+worldcups <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-11-29/worldcups.csv')
+```
+
+```{r}
+#| label: data prep
+home <- wcmatches %>% 
+  filter(year >= 1998) %>% 
+  select(year, home_team, home_score) %>% 
+  group_by(year, home_team) %>% 
+  summarise(home_total_goal = sum(home_score),
+            .groups = "drop")
+
+away <- wcmatches %>% 
+  filter(year >= 1998) %>% 
+  select(year, away_team, away_score) %>% 
+  group_by(year, away_team) %>% 
+  summarise(away_total_goal = sum(away_score),
+            .groups = "drop")
+
+goals <- merge(x=home, 
+               y=away, 
+               by.x=c("year","home_team"),
+               by.y=c("year","away_team"),
+               all = TRUE) %>% 
+  mutate(home_total_goal = if_else(is.na(home_total_goal), 0, home_total_goal),
+         away_total_goal = if_else(is.na(away_total_goal), 0, away_total_goal),
+         total_goal = home_total_goal + away_total_goal) 
+
+winners <- worldcups %>% 
+  filter(year >= 1998) %>% 
+  select(year, winner) %>% 
+  mutate(iso2 = countrycode(winner, "country.name", "iso2c")) 
+
+winners <- merge(x=winners,
+        y=goals, 
+        by.x=c("year","winner"),
+        by.y=c("year","home_team"))
+
+goal_avg <-
+  goals %>%
+  summarize(avg = mean(total_goal, na.rm = TRUE)) %>%
+  pull(avg)
+```
+
+```{r}
+#| label: plot
+
+arrows <-
+  tibble(
+    x1 = c(2009.5, 2001.8, 2019),
+    x2 = c(2009.8, 1999, 2016.5),
+    y1 = c(18, 16.2, 18),
+    y2 = c(16.2, 17.5, 18)
+  )
+
+
+goals %>% 
+  ggplot(aes(x = year,
+             y = total_goal)) +
+  geom_hline(aes(yintercept = goal_avg), color = "gray70", size = 1,
+             linetype='dotted') +
+  geom_jitter(position = position_jitter(seed = 2019,
+                                         width = 0.3,
+                                         height = 0),
+              size = 2,
+              fill = "white",
+              color = "black",
+              shape = 21,
+              alpha = 0.7) +
+  geom_segment(data = winners,
+    aes(x = year, xend = year,
+        y = goal_avg, yend = total_goal,
+        color = winner),
+    size = 1
+  ) +
+  geom_flag(data = winners,
+            aes(x = year +1.5,
+                y = total_goal,
+                image = iso2), 
+            size=0.06,
+            inherit.aes = FALSE) +
+  scale_y_continuous(limits = c(-1, 22),
+                     expand = c(0.02, 0.02),
+                     breaks = seq(0, 22, 2)) +
+  scale_x_continuous(limits = c(1997, 2022),
+                     breaks = seq(1998, 2018, 4)) +
+  scale_color_uchicago() +
+  labs(x="Year",
+       y="Total scored goals",
+       title = "Total scored goals per each team in the last seven World Cups (1998-2018)",
+       subtitle = "The winner of the World Cup usually placed among the top two teams that scored more goals.\nHowever, Spain only scored eight goals in 2010, eight less that Germany and won the cup.\nEach team is represented by a white circle",
+       caption = "Visualization by Johan S. Sáenz. Data by Kaggle FIFA World Cup") +
+  theme(
+      legend.position = "none",
+      axis.title = element_text(size = 16),
+      axis.text.x = element_text(size = 12),
+      panel.grid = element_blank(),
+      panel.background = element_rect(colour = "#e0f3db", fill = "#e0f3db"),
+      plot.title = element_text(face = "bold",
+                                  margin = margin(10, 0, 10, 0),
+                                  size = 14),
+      plot.subtitle = element_text(size = 12,
+                                   hjust = 0),
+      plot.caption = element_text(hjust = 0, size = 8, face = "bold")
+    ) +
+  annotate(
+    "text", x = 2008, y = 19, size = 2.8, color = "gray20", 
+    lineheight = .9, label = glue::glue("Germany scored 16 goals\nand did not win")) +
+      annotate(
+    "text", x = 1998.7, y = 19, size = 2.8, color = "gray20", 
+    lineheight = .9, label = glue::glue("Goal difference between\nthe champion and average\nacross the World Cups")
+    ) +
+   annotate(
+    "text", x = 2019, y = 19, size = 2.8, color = "gray20", 
+    lineheight = .9, label = glue::glue("World Cup winner")
+    ) +
+  geom_curve(data = arrows, aes(x = x1, y = y1, xend = x2, yend = y2),
+    arrow = arrow(length = unit(0.07, "inch")), size = 0.4,
+    color = "gray20", curvature = -0.3)
+```
+
+```{r}
+#| label: save-plot
+ggsave("../../figures/2022/world_cup.png", width = 10, height = 6, dpi = 350)
+```
