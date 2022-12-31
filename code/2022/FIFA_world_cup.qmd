@@ -164,5 +164,5 @@ goals %>%
 
 ```{r}
 #| label: save-plot
-ggsave("../../figures/2022/world_cup.png", width = 10, height = 6, dpi = 350)
+ggsave("../../plots/2022/world_cup.png", width = 10, height = 6, dpi = 350)
 ```

@@ -1,0 +1,151 @@
+---
+title: "TidyTuesday 2022/52 - Star Trek Timelines by {rtrek}}"
+author: "Johan S. Sáenz"
+date: "2022-12-30"
+output:
+  html_document:
+  theme: paper
+highlight: kate
+editor: source
+knitr:
+  opts_chunk:
+    dev: "ragg_png"
+    retina: 2
+    dpi: 600
+execute:
+  freeze: auto
+  echo: true
+  fig-width: 5
+  fig-height: 6
+---
+
+```{r}
+#| label: prep
+#| message: false
+#| warning: false
+library(tidyverse)
+library(trekcolors)
+library(trekfont)
+library(grid)
+library(png)
+library(showtext)
+library(rtrek)
+library(ggtext)
+```
+
+## Install fonts
+
+```{r}
+#| label: fonts
+#| message: false
+#| warning: false
+font <- c("Khan", "StarNext", "FederationDS9Title", "Federation", "Klingon", "ModernVulcan", "TNGcast", "FederationStarfleet", "FinalFrontier")
+path <- system.file(paste0("fonts/", font, ".ttf"), package = "trekfont")
+for(i in seq_along(font)) font_add(font[i], path[i])
+font_families()
+showtext_auto()
+```
+
+## Data
+
+```{r}
+#| label: data
+#| message: false
+#| warning: false
+tlBooks <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-12-27/tlBooks.csv')
+```
+
+## Wrangling data
+
+```{r}
+#| label: wrangling-data
+#| message: false
+#| warning: false
+novelization_books <- tlBooks %>% 
+  filter(format=="book") %>% 
+  select(series, novelization) %>% 
+ count(series, novelization) %>% 
+  group_by(series) %>% 
+  mutate(abundance = 100*(n/sum(n))) %>% 
+  filter(series!="NA") %>% 
+  pivot_wider(series,
+              names_from = novelization,
+              values_from = abundance) %>% 
+  pivot_longer(-series,
+               names_to = "novelization",
+               values_to = "abundance") %>% 
+  mutate(abundance =if_else(is.na(abundance), 0, abundance)) %>% 
+  inner_join(stSeries, by=c("series"="abb"))
+
+total_books <- tlBooks %>% 
+  filter(format=="book") %>% 
+  count(series) %>% 
+  filter(series!="NA")  %>% 
+  inner_join(stSeries, by=c("series"="abb"))
+
+
+order <- novelization_books %>%
+ filter(novelization !=FALSE) %>%
+  arrange(abundance) %>%
+  pull(id)
+```
+
+## Plot
+
+```{r}
+#| label: plot
+#| message: false
+#| warning: false
+novelization_books %>% 
+  mutate(id = factor(id, levels = order)) %>% 
+  ggplot(aes(x = id,
+             y = abundance,
+             fill = novelization)) +
+  geom_col(width = 0.8) +
+  geom_text(data = total_books, aes(x=id, y=95, label=n), inherit.aes = FALSE, size=5, color="white") +
+  coord_flip() +
+  scale_y_continuous(expand = c(0,0)) + 
+  labs(y = "Proportion of books",
+       x = NULL,
+       title = "Highly illogical! Star Trek books that were not originally books",
+       subtitle = "Star Trek is a giant media franchise composed of movies, TV-shows,
+       and books. Sometimes Star Trek non-book media<br /> were turned into a book. For example, all available books from The Animated Series were<b style='color:#AD722C'> originally not books,</b> while all 265 books from<br /> The Original Series were <b style='color:#5B1414'>originally books.</b>",
+       caption = "Visualization by Johan S. Sáenz (@SaenzJohanS) • Data by {rtrek}") +
+  scale_fill_manual(values = trek_pal("starfleet")) +
+  theme(plot.background = element_rect(colour = "#bdbdbd", fill = "#bdbdbd"),
+        panel.background = element_rect(colour = "#bdbdbd", fill = "#bdbdbd"),
+        panel.grid = element_blank(),
+        axis.title = element_text(colour = "black", face = "bold",
+                                  family = "Khan",
+                                  size = 15),
+        axis.text = element_text(colour = "black",
+                                 family = "Khan",
+                                 size = 15),
+        legend.position = "none",
+        plot.title = element_markdown(colour = "black",
+                                  face = "bold",
+                                  margin = margin(10, 10, 10, 10),
+                                  size = 25,
+                                  family = "FederationDS9Title",
+                                  hjust = 0),
+        plot.subtitle = element_markdown(colour = "black",
+                                     size = 18,
+                                     lineheight = 0.5,
+                                     hjust = 0,
+                                     family = "FinalFrontier",
+                                     face = "bold"
+                                     ),
+        plot.caption = element_text(colour = "black",
+                                    hjust = 0, size = 12, face = "bold",
+                                    margin = margin(10, 0, 10, 0)),
+                                    plot.title.position = "plot",
+        #plot.margin = unit(c(1,1,1,1), units = "cm")
+        )
+```
+
+```{r}
+#| label: save-plot
+#| message: false
+#| warning: false
+ggsave(filename = "../../plots/2022/strek_novelization.png", width = 4, height =3, dpi = 350)
+```
