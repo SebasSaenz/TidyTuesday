@@ -109,7 +109,7 @@ novelization_books %>%
        x = NULL,
        title = "Highly illogical! Star Trek books that were not originally books",
        subtitle = "Star Trek is a giant media franchise composed of movies, TV-shows,
-       and books. Sometimes Star Trek non-book media<br /> were turned into a book. For example, all available books from The Animated Series were<b style='color:#AD722C'> originally not books,</b> while all 265 books from<br /> The Original Series were <b style='color:#5B1414'>originally books.</b>",
+       and books. Sometimes Star Trek non-book media were<br /> turned into a book. For example, all available books from The Animated Series were<b style='color:#AD722C'> originally not books,</b> while all 265 books<br /> from The Original Series were <b style='color:#5B1414'>originally books.</b>",
        caption = "Visualization by Johan S. Sáenz (@SaenzJohanS) • Data by {rtrek}") +
   scale_fill_manual(values = trek_pal("starfleet")) +
   theme(plot.background = element_rect(colour = "#bdbdbd", fill = "#bdbdbd"),
