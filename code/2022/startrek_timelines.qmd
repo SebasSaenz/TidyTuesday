@@ -107,7 +107,7 @@ novelization_books %>%
   scale_y_continuous(expand = c(0,0)) + 
   labs(y = "Proportion of books",
        x = NULL,
-       title = "Highly illogical! Star Trek books that were not originally books",
+       title = "Highly illogical:<br />Star Trek books that were not originally books",
        subtitle = "Star Trek is a giant media franchise composed of movies, TV-shows,
        and books. Sometimes Star Trek non-book media were<br /> turned into a book. For example, all available books from The Animated Series were<b style='color:#AD722C'> originally not books,</b> while all 265 books<br /> from The Original Series were <b style='color:#5B1414'>originally books.</b>",
        caption = "Visualization by Johan S. Sáenz (@SaenzJohanS) • Data by {rtrek}") +
@@ -124,10 +124,11 @@ novelization_books %>%
         legend.position = "none",
         plot.title = element_markdown(colour = "#1A6384",
                                   face = "bold",
-                                  margin = margin(10, 10, 10, 10),
-                                  size = 30,
+                                  margin = margin(10, 10, 10, 0),
+                                  size = 35,
                                   family = "FederationDS9Title",
-                                  hjust = 0),
+                                  hjust = 0.5,
+                                  lineheight = 0.3),
         plot.subtitle = element_markdown(colour = "#a7a7a7",
                                      size = 18,
                                      lineheight = 0.5,
