@@ -31,6 +31,15 @@ library(png)
 library(showtext)
 library(rtrek)
 library(ggtext)
+
+txt <- "white"
+
+twitter <- glue("<span style='font-family:\"fontawesome-webfont\";color:{txt}'>{emojifont::fontawesome('fa-twitter')}</span>")
+
+github <- glue("<span style='font-family:\"fontawesome-webfont\";color:{txt}'>{emojifont::fontawesome('fa-github')}</span>")
+
+caption <- str_wrap(glue(
+  "Data source: rtrek • {twitter} @SaenzJohanS • Code: {github} SebasSaenz/TidyTuesday"), 3000)
 ```
 
 ## Install fonts
@@ -110,7 +119,7 @@ novelization_books %>%
        title = "Highly illogical:<br />Star Trek books that were not originally books",
        subtitle = "Star Trek is a giant media franchise composed of movies, TV-shows,
        and books. Sometimes Star Trek non-book media were<br /> turned into a book. For example, all available books from The Animated Series were<b style='color:#AD722C'> originally not books,</b> while all 265 books<br /> from The Original Series were <b style='color:#5B1414'>originally books.</b>",
-       caption = "Visualization by Johan S. Sáenz (@SaenzJohanS) • Data by {rtrek}") +
+       caption = caption) +
   scale_fill_manual(values = trek_pal("starfleet")) +
   theme(plot.background = element_rect(colour = "black", fill = "black"),
         panel.background = element_rect(colour = "black", fill = "black"),
@@ -136,11 +145,13 @@ novelization_books %>%
                                      family = "FinalFrontier",
                                      face = "bold"
                                      ),
-        plot.caption = element_text(colour = "#c0c0c0",
-                                    hjust = 0, size = 12, face = "bold",
-                                    margin = margin(10, 0, 10, 0)),
-                                    plot.title.position = "plot",
-        #plot.margin = unit(c(1,1,1,1), units = "cm")
+        plot.caption = element_markdown(family="Roboto",
+                                        colour = "white",
+                                        hjust = 0, 
+                                        size = 12,
+                                        margin = margin(5, 10, 5, 10)),
+        strip.text.x = element_text(),
+        plot.title.position = "plot"
         )
 ```
 
