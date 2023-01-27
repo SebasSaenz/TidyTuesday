@@ -110,5 +110,5 @@ plot$layers[[14]]$aes_params <- c(plot$layers[[14]]$aes_params, colour = "white"
 
 
 # save-plot --------------------------------------------------------------------
-ggsave(plot, filename = here::here("plots", "2023/alone.png"), width = 5, height = 6, dpi = 400)
+ggsave(plot, filename = here::here("plots", "2023/alone.png"), width = 5, height = 5, dpi = 400)
 
