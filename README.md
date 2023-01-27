@@ -4,7 +4,7 @@
 This repository contains my contributions to the [#TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenges.
 
 
-### [Week 2023/4](https://github.com/SebasSaenz/TidyTuesday/blob/main/code/2023/alone.qmd) Alone dataset by [Alone data package](https://github.com/doehm/alone)
+### [Week 2023/4](https://github.com/SebasSaenz/TidyTuesday/blob/main/code/2023/alone.R) Alone dataset by [Alone data package](https://github.com/doehm/alone)
 
 ![./plots/2023/alone.png](https://github.com/SebasSaenz/TidyTuesday/blob/main/plots/2023/alone.png)
 
