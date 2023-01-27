@@ -3,6 +3,11 @@
 # TidyTuesday
 This repository contains my contributions to the [#TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenges.
 
+
+### [Week 2023/4](https://github.com/SebasSaenz/TidyTuesday/blob/main/code/2023/alone.qmd) Alone dataset by [Alone data package](https://github.com/doehm/alone)
+
+![./plots/2023/alone.png](https://github.com/SebasSaenz/TidyTuesday/blob/main/plots/2023/alone.png)
+
 ### [Week 2022/48](https://github.com/SebasSaenz/TidyTuesday/blob/main/code/2022/FIFA_world_cup.qmd) FIFA World Cup by [Kaggle FIFA World Cup](https://www.kaggle.com/datasets/evangower/fifa-world-cup/code)
 
 ![./plots/2022/world_cup.png](https://github.com/SebasSaenz/TidyTuesday/blob/main/plots/2022/world_cup.png)
