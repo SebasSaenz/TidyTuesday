@@ -1,6 +1,6 @@
-# title: "TidyTuesday 2023/5 - ALONE data by {Alone}}"
+# title: "TidyTuesday 2023/5 - Pet Cats UK by Movebank for Animal Tracking Data
 # author: "Johan S. Sáenz"
-# date: "2023-01-28"
+# date: "2023-02-01"
 
 # load libraries ---------------------------------------------------------------
 library(tidyverse)
