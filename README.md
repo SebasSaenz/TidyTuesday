@@ -4,6 +4,14 @@
 This repository contains my contributions to the [#TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenges.
 
 
+## Some examples
+
+
+
+### [Week 2023/4](https://github.com/SebasSaenz/TidyTuesday/blob/main/code/2023/cats_uk.R) Pet Cats UK dataset by [Movebank for Animal Tracking Data](https://datarepository.movebank.org/entities/datapackage/4ef43458-a0c0-4ff0-aed4-64b07cedf11c)
+
+![./plots/2023/cats_uk.png](https://github.com/SebasSaenz/TidyTuesday/blob/main/plots/2023/cats_uk.png)
+
 ### [Week 2023/4](https://github.com/SebasSaenz/TidyTuesday/blob/main/code/2023/alone.R) Alone dataset by [Alone data package](https://github.com/doehm/alone)
 
 ![./plots/2023/alone.png](https://github.com/SebasSaenz/TidyTuesday/blob/main/plots/2023/alone.png)
