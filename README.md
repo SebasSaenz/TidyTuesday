@@ -10,16 +10,16 @@ This repository contains my contributions to the [#TidyTuesday](https://github.c
 
 ### [Week 2023/6](https://github.com/SebasSaenz/TidyTuesday/blob/main/code/2023/stocks.R) Big Tech Stock Prices dataset by [Kaggle](https://www.kaggle.com/datasets/evangower/big-tech-stock-prices)
 
-<img src="https://github.com/SebasSaenz/TidyTuesday/blob/main/plots/2023/stocks_2023.png" width="70%">
+<img src="https://github.com/SebasSaenz/TidyTuesday/blob/main/plots/2023/stocks_2023.png" width="75%">
 
 
 ### [Week 2023/5](https://github.com/SebasSaenz/TidyTuesday/blob/main/code/2023/cats_uk.R) Pet Cats UK dataset by [Movebank for Animal Tracking Data](https://datarepository.movebank.org/entities/datapackage/4ef43458-a0c0-4ff0-aed4-64b07cedf11c)
 
-<img src="https://github.com/SebasSaenz/TidyTuesday/blob/main/plots/2023/cats_uk.png" width="70%">
+<img src="https://github.com/SebasSaenz/TidyTuesday/blob/main/plots/2023/cats_uk.png" width="60%">
 
 ### [Week 2023/4](https://github.com/SebasSaenz/TidyTuesday/blob/main/code/2023/alone.R) Alone dataset by [Alone data package](https://github.com/doehm/alone)
 
-<img src="https://github.com/SebasSaenz/TidyTuesday/blob/main/plots/2023/alone.png" width="70%">
+<img src="https://github.com/SebasSaenz/TidyTuesday/blob/main/plots/2023/alone.png" width="60%">
 
 ## 2022
 
